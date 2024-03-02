@@ -1,9 +1,11 @@
 import os
+import json
 
-from flask import (Flask, redirect, render_template, request,
-                   send_from_directory, url_for)
+from flask import (Flask, redirect, render_template, request, send_from_directory, url_for)
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
@@ -16,7 +18,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@app.route('/hello', methods=['POST'])
+@app.route('/hello', methods=['GET'])
 def hello():
    name = request.form.get('name')
 
@@ -27,6 +29,25 @@ def hello():
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
 
+@app.route('/getDetails', methods=['POST'])
+def getDetails():
+    request_data = request.get_json()
+    print(request_data['data']['key'])
+    if (request_data['data']['key'] == 'hello'):
+        details = {
+            "flowStatus": "SUCCESS",
+            "flowStatusMessage": "",
+            "result": {
+                "data": "Backend Works!"
+            }
+        }
+        return details
+    else:
+        return {
+            "flowStatus": "FAILURE",
+            "flowStatusMessage": "Backend Error!",
+            "result": {}
+        }
 
 if __name__ == '__main__':
-   app.run()
+   app.run(port=8000, debug=True)
