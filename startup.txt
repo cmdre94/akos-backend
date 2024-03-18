@@ -5,5 +5,6 @@ pip install sklearn.metrics
 pip install sklearn.model_selection
 pip install sklearn.preprocessing
 pip install sklearn.feature_selection
+pip install sklearn.linear_model
 pip install flask_cors
 gunicorn --bind=0.0.0.0 --timeout 600 app:app
