@@ -76,7 +76,7 @@ def getDetails():
             return {
                 "flowStatus": "FAILURE",
                 "flowStatusMessage": "Backend Error!",
-                "result": {}
+                "result": request_data
             }
     except Exception as e:
         return {
