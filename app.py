@@ -52,8 +52,7 @@ except Exception as e:
 def getDetails():
     try:
         request_data = request.get_json()
-        print(request_data['data']['data'])
-        if (request_data['data']['key'] == os.environ.get('KEY')):
+        if (request_data):
             housingInput = pd.DataFrame(request_data['data']['data'])
             print(housingInput)
             pricePrediction = lm.predict(housingInput)
