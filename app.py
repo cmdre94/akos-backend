@@ -76,7 +76,15 @@ def getDetails():
             return {
                 "flowStatus": "FAILURE",
                 "flowStatusMessage": "Backend Error!",
-                "result": request_data
+                "result": {
+                    "coefficients": coeff_df.to_json(),
+                    "prediction": 0,
+                    "metrics": {
+                        'mse': metrics.mean_squared_error(y_test, predictions),
+                        'mae': metrics.mean_absolute_error(y_test, predictions),
+                        'rmse': np.sqrt(metrics.mean_squared_error(y_test, predictions))
+                    }
+                }
             }
     except Exception as e:
         return {
