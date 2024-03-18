@@ -52,7 +52,7 @@ except Exception as e:
 def getDetails():
     try:
         request_data = request.get_json()
-        if (request_data):
+        if (request):
             housingInput = pd.DataFrame(request_data['data']['data'])
             print(housingInput)
             pricePrediction = lm.predict(housingInput)
@@ -70,21 +70,13 @@ def getDetails():
                     }
                 }
             }
-            str(details)
             return details
         else:
             return {
                 "flowStatus": "FAILURE",
                 "flowStatusMessage": "Backend Error!",
-                "result": {
-                    "coefficients": coeff_df.to_json(),
-                    "prediction": 0,
-                    "metrics": {
-                        'mse': metrics.mean_squared_error(y_test, predictions),
-                        'mae': metrics.mean_absolute_error(y_test, predictions),
-                        'rmse': np.sqrt(metrics.mean_squared_error(y_test, predictions))
-                    }
-                }
+                "result": {},
+                "error": "error"
             }
     except Exception as e:
         return {
